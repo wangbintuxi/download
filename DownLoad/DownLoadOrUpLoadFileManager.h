@@ -11,7 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DownLoadOrUpLoadFileManager : NSObject
+
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
+
+
+/// 初始化
 + (instancetype)getInstance;
 
 #pragma mark -下载文件
@@ -62,8 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
                       progress:(void (^)(float progress))progress;
 
 /**
- *  取消下载，并删除本地已经下载了的部分
- *
+ *  取消下载，并删除本地下载 *
  *  @param created  文件在服务器创建的时间
  *  @param fileName 文件的名字
  */

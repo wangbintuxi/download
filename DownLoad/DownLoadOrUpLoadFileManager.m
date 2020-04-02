@@ -67,7 +67,6 @@
 /**
  *  根据文件类型、名字、创建时间获得本地文件的路径，当文件不存在时，返回nil
  *
- *
  *  @param fileName 文件名字
  *  @param created  文件在服务器创建的时间
  *
@@ -93,7 +92,6 @@
  *  @brief 下载文件
  *
  *  @param requestURL 下载的url
- *
  *  @param fileName   文件名字
  *  @param created    文件服务器创建时间
  *  @param completionHandler    success
@@ -108,25 +106,21 @@
     /* 下载地址 */
     NSURL *url = [NSURL URLWithString:requestURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    /* 下载路径 */
+    /* 保存路径 */
     NSString *filePath = [NSString stringWithFormat:@"%@/%@", [self setPathOfDocumentsByFileCreated:created fileName:fileName], fileName];
-        
     
     AFURLSessionManager *downLoadOperation = [[AFURLSessionManager alloc]init];
-    
     /* 开始请求下载 */
     self.downloadTask = [downLoadOperation downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
         progress(downloadProgress.fractionCompleted * 100);
         NSLog(@"下载进度：%.0f％", downloadProgress.fractionCompleted * 100);
     } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //如果需要进行UI操作，需要获取主线程进行操作
-        });
+
         /* 设定下载到的位置 */
         return [NSURL fileURLWithPath:filePath];
                 
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
-         NSLog(@"下载完成");
+         
         completionHandler(response,filePath,error);
     }];
     [self.downloadTask resume];
